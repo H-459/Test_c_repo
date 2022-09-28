@@ -1,0 +1,138 @@
+{
+    "name": "nestle/lightnow",
+    "description": "Project template for Drupal 9 sites built with SiteBuilder.",
+    "type": "project",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        },
+        "lightnest": {
+            "type": "composer",
+            "url": "https://webcms:NPJ4fj5Nvw2zBTCw@satis.lightnest.nestle.com/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "acquia/blt": "^12.0.0",
+        "acquia/drupal-spec-tool": "*",
+        "bower-asset/blazy": "^1.8.0",
+        "bower-asset/chosen": "^1.8.0",
+        "bower-asset/jquery.easing": "^1.3.0",
+        "drupal/core-composer-scaffold": "^9.1",
+        "drupal/default_content": "^2.0@alpha",
+        "drupal/qa_accounts": "^1.0.0-alpha1",
+        "drupal/swiftmailer": "^2.0@beta",
+        "drush/drush": "^10.4",
+        "lightnest/dsu_srh": "^2.6",
+        "lightnest/lightnest": "^4.3.1",
+        "lightnest/ln_pdh": "^1.0",
+        "wikimedia/composer-merge-plugin": "^2.0"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "apcu-autoloader": true
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "composer-extensions/*.composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "ignore-duplicates": false,
+            "merge-dev": true,
+            "merge-extra": false,
+            "merge-extra-deep": false,
+            "merge-scripts": false
+        },
+        "composer-exit-on-patch-failure": true,
+        "drupal-scaffold": {
+            "allowed-packages": [
+                "pantheon-systems/drupal-integrations"
+            ],
+            "locations": {
+                "web-root": "docroot"
+            },
+            "file-mapping": {
+                "[project-root]/pantheon.upstream.yml": false,
+                "[web-root]/sites/default/settings.pantheon.php": false
+            },
+            "initial": {
+                "sites/default/default.services.yml": "sites/default/services.yml",
+                "sites/default/default.settings.php": "sites/default/settings.php"
+            }
+        },
+        "enable-patching": true,
+        "installer-paths": {
+            "docroot/core": [
+                "type:drupal-core"
+            ],
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "docroot/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
+            "drush/Commands/{$name}": [
+                "type:drupal-drush"
+            ]
+        },
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "patches": {
+            "drupal/core": {
+                "1356276 - Allow profiles to define a base/parent profile": "https://www.drupal.org/files/issues/2021-11-18/1356276-675.patch"
+            },
+            "drupal/recaptcha": {
+                "3035883 - CAPTCHA validation error: unknown CAPTCHA session ID": "https://www.drupal.org/files/issues/2019-11-15/3035883-29-workaround.patch"
+            },
+            "lightnest/ln_datalayer": {
+                "Custom - Check if exists old config": "patches/ln_datalayer/check-old-config.patch"
+            },
+            "drupal/prlp": {
+                "Custom - 3143391 - Password reset form validation allows non-matching passwords": "patches/prlp/3143391-2-custom.patch",
+                "3250881 - Too few arguments to function Drupal\\user\\Controller\\UserController::resetPassLogin()": "patches/prlp/3250881.patch"
+            }
+        },
+        "patches-ignore": {
+            "lightnest/dsu_security": {
+                "drupal/prlp": {
+                    "Password reset form validation allows non-matching passwords": "https://www.drupal.org/files/issues/2020-06-02/3143391-2.patch"
+                }
+            }
+        }
+    }
+}
